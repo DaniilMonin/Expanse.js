@@ -4,10 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Expanse.Core.Services.JavaScriptRootEngine;
-using Expanse.Core.Services.JSonSerializer;
 using Expanse.Core.Services.Logger;
-using Expanse.Core.Services.Templates;
 using Jint;
 using Ninject;
 
@@ -22,22 +21,23 @@ namespace Expanse.Services.JavaScriptRootEngine
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ITemplatesService _templates;
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IJSonSerializerService _jSonSerializer;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IEnumerable<JavaScriptExtensionPackage> _packages;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IDictionary<string, object> _cacheDictionary = new Dictionary<string, object>();
+
+        private const string RequireScriptTemplate = "var module = {{}};\r\n{0}\r\nmodule;";
 
         #endregion
         
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        public JavaScriptRootEngineService(LoggerService logger, ITemplatesService templates, IJSonSerializerService jSonSerializer)
+        public JavaScriptRootEngineService(
+            LoggerService logger,
+            IEnumerable<JavaScriptExtensionPackage> packages)
         {
             _logger = logger;
-            _templates = templates;
-            _jSonSerializer = jSonSerializer;
+            _packages = packages;
         }
 
         #endregion
@@ -60,7 +60,7 @@ namespace Expanse.Services.JavaScriptRootEngine
                 }
                 catch (Exception exception)
                 {
-                    Info(exception.Message);
+                    _logger.Info(exception.Message);
                 }
 
                 return;
@@ -73,9 +73,6 @@ namespace Expanse.Services.JavaScriptRootEngine
 
         #region Private Methods
 
-        [DebuggerStepThrough]
-        private void Info(object message) => _logger.Info(message?.ToString());
-
         private dynamic Require(string fileName)
         {
             if (_cacheDictionary.ContainsKey(fileName))
@@ -87,7 +84,7 @@ namespace Expanse.Services.JavaScriptRootEngine
             {
                 try
                 {
-                    dynamic compiled = CreateAndGetEngine().Execute($"var module = {{}};\r\n{File.ReadAllText(fileName)}\r\nmodule;").GetCompletionValue();
+                    dynamic compiled = CreateAndGetEngine().Execute(string.Format(RequireScriptTemplate, File.ReadAllText(fileName))).GetCompletionValue();
 
                     _cacheDictionary.Add(fileName, compiled);
 
@@ -95,24 +92,27 @@ namespace Expanse.Services.JavaScriptRootEngine
                 }
                 catch (Exception exception)
                 {
-                    Info(exception.Message);
+                    _logger.Info(exception.Message);
                 }
 
                 return new {};
             }
 
-            Info($"Could not find {fileName}");
+            _logger.Info($"Could not find {fileName}");
 
             return new {};
         }
 
         private Engine CreateAndGetEngine()
         {
-            return new Engine()
-                .SetValue("info", new Action<object>(Info))
-                .SetValue("require", new Func<string, dynamic>(Require))
-                .SetValue("toJson", new Func<dynamic, string>(_jSonSerializer.Serialize))
-                .SetValue("runRazor", new Func<string, dynamic, string>(_templates.Compile));
+            var engine = new Engine().SetValue("require", new Func<string, dynamic>(Require));
+
+            foreach (var extension in _packages.SelectMany(package => package.GetExtensions()))
+            {
+                engine.SetValue(extension.Key, extension.Value);
+            }
+
+            return engine;
         }
 
         #endregion

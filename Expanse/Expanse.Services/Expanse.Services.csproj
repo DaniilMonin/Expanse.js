@@ -75,6 +75,7 @@
     <Compile Include="CommandLineParser\CommandLineParserService.cs" />
     <Compile Include="CommandLineParser\Data\CommandLineArgumentsData.cs" />
     <Compile Include="JavaScriptRootEngine\JavaScriptRootEngineService.cs" />
+    <Compile Include="JavaScriptRootEngine\StandardJavaScriptExtensionPackage.cs" />
     <Compile Include="JSonSerializer\JSonSerializerService.cs" />
     <Compile Include="Logger\LoggerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

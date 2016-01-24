@@ -71,6 +71,10 @@ namespace Expanse.Services
                 .To<VersionInfoService>()
                 .InSingletonScope();
 
+            _kernel.Bind<StandardJavaScriptExtensionPackage, JavaScriptExtensionPackage>()
+                .To<StandardJavaScriptExtensionPackage>()
+                .InSingletonScope();
+
             return _kernel.Get<Bootstrapper>();
         }
 
