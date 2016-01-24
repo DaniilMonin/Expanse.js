@@ -20,7 +20,7 @@ module.exports = {
   }
 }
 ```
-* Run expanse -p main.js and you will get something like this
+* Run *expanse -p main.js* and you will get something like this
 ```
 JsExpanse 0.0.2.9 (Javascript interpreter based on Jint 2.6.0.0)
 Fiat
