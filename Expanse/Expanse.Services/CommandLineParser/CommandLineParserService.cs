@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Expanse.Core.Services.CommandLineParser;
+using Expanse.Core.Services.JavaScriptRootEngine;
 using Expanse.Core.Services.Logger;
 using Expanse.Core.Services.VersionInfo;
 using Expanse.Shared.Data.CmdArgs;
@@ -21,6 +22,7 @@ namespace Expanse.Services.CommandLineParser
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IVersionInfoService _versionInfo;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IJavaScriptRootEngineService _rootEngine;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly FluentCommandLineParser<CommandLineArgumentsData> _commandLineParser = new FluentCommandLineParser<CommandLineArgumentsData>();
 
         #endregion
@@ -28,12 +30,13 @@ namespace Expanse.Services.CommandLineParser
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        public CommandLineParserService(LoggerService logger, IVersionInfoService versionInfo)
+        public CommandLineParserService(LoggerService logger, IVersionInfoService versionInfo, IJavaScriptRootEngineService rootEngine)
         {
             _commandLineParser.Setup(arg => arg.FileName).As('p', "program").Required();
 
             _logger = logger;
             _versionInfo = versionInfo;
+            _rootEngine = rootEngine;
         }
 
         #endregion

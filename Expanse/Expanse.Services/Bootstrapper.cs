@@ -1,8 +1,9 @@
 ﻿#region Using namespaces...
 
 using System.Diagnostics;
+using Expanse.Core.Services.JavaScriptRootEngine;
 using Expanse.Services.CommandLineParser;
-using Expanse.Services.JavaScriptEngine;
+using Expanse.Services.JavaScriptRootEngine;
 using Expanse.Services.JSonSerializer;
 using Expanse.Services.Logger;
 using Expanse.Services.Templates;
@@ -62,8 +63,8 @@ namespace Expanse.Services
                 .To<TemplatesService>()
                 .InSingletonScope();
 
-            _kernel.Bind<JavaScriptEngineService, Core.Services.JavaScriptEngine.IJavaScriptEngineService>()
-                .To<JavaScriptEngineService>()
+            _kernel.Bind<JavaScriptRootEngineService, IJavaScriptRootEngineService>()
+                .To<JavaScriptRootEngineService>()
                 .InSingletonScope();
 
             _kernel.Bind<VersionInfoService, Core.Services.VersionInfo.IVersionInfoService>()
