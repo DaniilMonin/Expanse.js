@@ -1,6 +1,5 @@
 ﻿#region Using namespaces...
 
-using System;
 using System.Diagnostics;
 using System.Linq;
 using Expanse.Core.Services.CommandLineParser;
@@ -55,9 +54,7 @@ namespace Expanse.Services.CommandLineParser
                     _logger.Error("Invalid arguments - exiting...");
                 }
 
-                var fileName = _commandLineParser.Object;
-
-                _logger.Info($"{fileName.FileName}");
+                _rootEngine.RunProgram(_commandLineParser.Object.FileName);
 
                 return;
             }
