@@ -45,12 +45,12 @@ namespace Expanse.Services.Templates
                 {
                     if (_cachedFiles.Contains(fileName))
                     {
-                        return Engine.Razor.Run(fileName, null, new {Bag = model});
+                        return Engine.Razor.Run(fileName, null, new {Exports = model});
                     }
 
                     _cachedFiles.Add(fileName);
 
-                    return Engine.Razor.RunCompile(File.ReadAllText(fileName), fileName, null, new {Bag = model});
+                    return Engine.Razor.RunCompile(File.ReadAllText(fileName), fileName, null, new {Exports = model});
                 }
                 catch (Exception exception)
                 {

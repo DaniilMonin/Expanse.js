@@ -43,18 +43,14 @@ namespace Expanse.Services.JavaScriptRootEngine
 
         #region Public Methods
 
-        public override IDictionary<string, Delegate> GetExtensions()
+        [DebuggerStepThrough]
+        public override IDictionary<string, Delegate> GetExtensions() => new Dictionary<string, Delegate>
         {
-            return new Dictionary<string, Delegate>
-            {
-                {"info", new Action<object>(o => _logger.Info(o?.ToString()))},
-                {"toJson", new Func<dynamic, string>(_jSonSerializer.Serialize)},
-                {"runRazor", new Func<string, dynamic, string>(_templates.Compile)}
-            };
-        }
+            {"info", new Action<object>(o => _logger.Info(o?.ToString()))},
+            {"toJson", new Func<dynamic, string>(_jSonSerializer.Serialize)},
+            {"runRazor", new Func<string, dynamic, string>(_templates.Compile)}
+        };
 
         #endregion
-
-
     }
 }
