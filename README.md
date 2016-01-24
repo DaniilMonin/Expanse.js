@@ -57,3 +57,10 @@ JsExpanse 0.0.2.9 (Javascript interpreter based on Jint 2.6.0.0)
 *TODO*
 ## How to create a MVC project
 *TODO*
+## Dependencies
+- Ninject https://github.com/ninject/Ninject
+- Ninject.Extensions.Factory https://github.com/ninject/Ninject.Extensions.Factory
+- NLog https://github.com/NLog/NLog
+- RazorEngine https://github.com/Antaris/RazorEngine
+- Newtonsoft.Json https://github.com/JamesNK/Newtonsoft.Json
+- Jint https://github.com/sebastienros/jint
