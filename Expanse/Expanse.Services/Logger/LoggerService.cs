@@ -65,7 +65,7 @@ namespace Expanse.Services.Logger
             _log = LogManager.GetCurrentClassLogger();
 
 
-            Info("Current directory: {0}", Environment.CurrentDirectory);
+            //Info("Current directory: {0}", Environment.CurrentDirectory);
         }
 
         #endregion

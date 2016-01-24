@@ -10,7 +10,7 @@
 
         #region Public Methods
 
-        void RunScriptProgram(string fileName);
+        void RunScript(string fileName);
 
         #endregion
 

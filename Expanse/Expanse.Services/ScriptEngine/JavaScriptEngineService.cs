@@ -47,7 +47,7 @@ namespace Expanse.Services.ScriptEngine
 
         #region Public Methods
 
-        public void RunScriptProgram(string fileName)
+        public void RunScript(string fileName)
         {
             if (File.Exists(fileName))
             {

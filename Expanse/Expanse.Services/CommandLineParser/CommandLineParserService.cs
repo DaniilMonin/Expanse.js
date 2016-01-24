@@ -24,6 +24,13 @@ namespace Expanse.Services.CommandLineParser
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IScriptEngineService _rootEngine;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly FluentCommandLineParser<CommandLineArgumentsData> _commandLineParser = new FluentCommandLineParser<CommandLineArgumentsData>();
 
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string NoLogoCommand = "nologo";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RunCommand = "run";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string CreateProjectCommand = "createproject";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string CreateMvcProjectCommand = "createmvcproject";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string NewProjectPathCommand = "projectpath";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string HelpCommand = "help";
         #endregion
 
         #region Constructor
@@ -31,11 +38,16 @@ namespace Expanse.Services.CommandLineParser
         [Inject, DebuggerStepThrough]
         public CommandLineParserService(LoggerService logger, IVersionInfoService versionInfo, IScriptEngineService rootEngine)
         {
-            _commandLineParser.Setup(arg => arg.ProgramFileName).As('r', "run").Required();
-
             _logger = logger;
             _versionInfo = versionInfo;
             _rootEngine = rootEngine;
+
+            _commandLineParser.Setup(arg => arg.ProgramFileName).As('r', RunCommand).WithDescription("Run specific script");
+            _commandLineParser.Setup(arg => arg.NoLogo).As('n', NoLogoCommand).SetDefault(false).WithDescription("Hide logo");
+            _commandLineParser.Setup(arg => arg.NewProjectName).As('c', CreateProjectCommand).WithDescription("Create new project");
+            _commandLineParser.Setup(arg => arg.NewProjectName).As('m', CreateMvcProjectCommand).WithDescription("Create new MVC project");
+            _commandLineParser.Setup(arg => arg.NewProjectPath).As('p', NewProjectPathCommand).WithDescription("Where new project should be");
+            _commandLineParser.Setup(arg => arg.NewProjectPath).As('?', HelpCommand).Callback(text => _logger.Info(text));
         }
 
         #endregion
@@ -44,21 +56,30 @@ namespace Expanse.Services.CommandLineParser
 
         public void Parse(string[] args)
         {
-            _logger.Info(_versionInfo.GetVersionInformation());
-
             if (args != null && args.Any())
             {
                 if (_commandLineParser.Parse(args).HasErrors)
                 {
-                    _logger.Error("Invalid arguments - exiting...");
+                    _logger.Error("Invalid arguments");
+
+                    return;
                 }
 
-                _rootEngine.RunScriptProgram(_commandLineParser.Object.ProgramFileName);
+                _logger.InfoIf(!_commandLineParser.Object.NoLogo, _versionInfo.GetVersionInformation());
+
+                if (string.IsNullOrWhiteSpace(_commandLineParser.Object.ProgramFileName))
+                {
+                    _logger.Error($"No file found '{_commandLineParser.Object.ProgramFileName}'");
+
+                    return;
+                }
+                
+                _rootEngine.RunScript(_commandLineParser.Object.ProgramFileName);
 
                 return;
             }
 
-            _logger.Error("No any arguments - exiting...");
+            _logger.Info(_versionInfo.GetVersionInformation());
         }
 
         #endregion
