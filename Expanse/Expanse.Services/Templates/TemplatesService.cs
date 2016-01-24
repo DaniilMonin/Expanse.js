@@ -23,21 +23,20 @@ namespace Expanse.Services.Templates
 
         #region Public Methods
 
-        public string Compile<TModel>(string fileName, TModel model = null)
-            where TModel : class
+        public string Compile(string fileName, dynamic model = null)
         {
             if (File.Exists(fileName))
             {
                 if (_cachedFiles.Contains(fileName))
                 {
-                    return Engine.Razor.Run(fileName, typeof (TModel), model);
+                    return Engine.Razor.Run(fileName, null, new { Bag = model });
                 }
 
                 _cachedFiles.Add(fileName);
 
                 var template = File.ReadAllText(fileName);
 
-                return Engine.Razor.RunCompile(template, fileName, typeof (TModel), model);
+                return Engine.Razor.RunCompile(template, fileName, null, new { Bag = model });
             }
 
             return string.Empty;

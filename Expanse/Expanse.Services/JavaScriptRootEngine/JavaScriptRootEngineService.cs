@@ -61,6 +61,7 @@ namespace Expanse.Services.JavaScriptRootEngine
 
         #region Private Methods
 
+        [DebuggerStepThrough]
         private void Info(object message) => _logger.Info(message?.ToString());
 
         private dynamic Require(string fileName)
