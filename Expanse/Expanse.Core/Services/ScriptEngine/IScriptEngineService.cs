@@ -1,6 +1,6 @@
-﻿namespace Expanse.Core.Services.JavaScriptRootEngine
+﻿namespace Expanse.Core.Services.ScriptEngine
 {
-    public interface IJavaScriptRootEngineService
+    public interface IScriptEngineService
     {
         #region Public Properties
 
@@ -8,10 +8,9 @@
 
         #endregion
 
-
         #region Public Methods
 
-        void RunProgram(string fileName);
+        void RunScriptProgram(string fileName);
 
         #endregion
 

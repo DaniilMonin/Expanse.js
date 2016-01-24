@@ -17,6 +17,5 @@ namespace Expanse.Services.JSonSerializer
         public TData DeSerialize<TData>(string json) => JsonConvert.DeserializeObject<TData>(json);
 
         #endregion
-
     }
 }

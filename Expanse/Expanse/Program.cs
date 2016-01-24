@@ -16,6 +16,5 @@ namespace Expanse
         static void Main(string[] args) => Bootstrapper.Load().Start(args);
 
         #endregion
-
     }
 }

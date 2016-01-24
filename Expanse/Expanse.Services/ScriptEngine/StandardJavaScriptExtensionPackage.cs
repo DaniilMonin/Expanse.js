@@ -3,25 +3,23 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Expanse.Core.Services.JavaScriptRootEngine;
 using Expanse.Core.Services.JSonSerializer;
 using Expanse.Core.Services.Logger;
+using Expanse.Core.Services.ScriptEngine;
 using Expanse.Core.Services.Templates;
 using Ninject;
 
 #endregion
 
 
-namespace Expanse.Services.JavaScriptRootEngine
+namespace Expanse.Services.ScriptEngine
 {
-    internal sealed class StandardJavaScriptExtensionPackage : JavaScriptExtensionPackage
+    internal sealed class StandardJavaScriptExtensionPackage : ScriptEngineExtensionPackage
     {
         #region Private Fields
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ITemplatesService _templates;
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IJSonSerializerService _jSonSerializer;
 
         #endregion

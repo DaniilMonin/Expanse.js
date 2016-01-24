@@ -6,9 +6,9 @@ using System.Collections.Generic;
 #endregion
 
 
-namespace Expanse.Core.Services.JavaScriptRootEngine
+namespace Expanse.Core.Services.ScriptEngine
 {
-    public abstract class JavaScriptExtensionPackage
+    public abstract class ScriptEngineExtensionPackage
     {
         #region Public Methods
 

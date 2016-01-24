@@ -5,36 +5,33 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Expanse.Core.Services.JavaScriptRootEngine;
 using Expanse.Core.Services.Logger;
+using Expanse.Core.Services.ScriptEngine;
 using Jint;
 using Ninject;
 
 #endregion
 
 
-namespace Expanse.Services.JavaScriptRootEngine
+namespace Expanse.Services.ScriptEngine
 {
-    internal sealed class JavaScriptRootEngineService : IJavaScriptRootEngineService
+    internal sealed class JavaScriptEngineService : IScriptEngineService
     {
         #region Private Fields
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IEnumerable<JavaScriptExtensionPackage> _packages;
-
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IEnumerable<ScriptEngineExtensionPackage> _packages;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IDictionary<string, object> _cacheDictionary = new Dictionary<string, object>();
-
-        private const string RequireScriptTemplate = "var module = {{}};\r\n{0}\r\nmodule;";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RequireScriptTemplate = "var module = {{}};\r\n{0}\r\nmodule;";
 
         #endregion
         
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        public JavaScriptRootEngineService(
+        public JavaScriptEngineService(
             LoggerService logger,
-            IEnumerable<JavaScriptExtensionPackage> packages)
+            IEnumerable<ScriptEngineExtensionPackage> packages)
         {
             _logger = logger;
             _packages = packages;
@@ -50,7 +47,7 @@ namespace Expanse.Services.JavaScriptRootEngine
 
         #region Public Methods
 
-        public void RunProgram(string fileName)
+        public void RunScriptProgram(string fileName)
         {
             if (File.Exists(fileName))
             {

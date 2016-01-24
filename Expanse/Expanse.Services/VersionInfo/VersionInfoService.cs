@@ -3,7 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-using Expanse.Core.Services.JavaScriptRootEngine;
+using Expanse.Core.Services.ScriptEngine;
 using Expanse.Core.Services.VersionInfo;
 using Ninject;
 
@@ -16,20 +16,19 @@ namespace Expanse.Services.VersionInfo
     {
         #region Private Fields
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IJavaScriptRootEngineService _jsEngineService;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IScriptEngineService _jsEngineService;
 
         #endregion
         
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        public VersionInfoService(IJavaScriptRootEngineService jsEngineService)
+        public VersionInfoService(IScriptEngineService jsEngineService)
         {
             _jsEngineService = jsEngineService;
         }
 
         #endregion
-
 
         #region Public Properties
 
@@ -45,6 +44,5 @@ namespace Expanse.Services.VersionInfo
         public string GetVersionInformation() => $"{Info} {Version} ({Description})";
 
         #endregion
-
     }
 }

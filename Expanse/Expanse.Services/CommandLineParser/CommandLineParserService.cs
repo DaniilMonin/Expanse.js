@@ -3,8 +3,8 @@
 using System.Diagnostics;
 using System.Linq;
 using Expanse.Core.Services.CommandLineParser;
-using Expanse.Core.Services.JavaScriptRootEngine;
 using Expanse.Core.Services.Logger;
+using Expanse.Core.Services.ScriptEngine;
 using Expanse.Core.Services.VersionInfo;
 using Expanse.Services.CommandLineParser.Data;
 using Fclp;
@@ -21,7 +21,7 @@ namespace Expanse.Services.CommandLineParser
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IVersionInfoService _versionInfo;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IJavaScriptRootEngineService _rootEngine;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IScriptEngineService _rootEngine;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly FluentCommandLineParser<CommandLineArgumentsData> _commandLineParser = new FluentCommandLineParser<CommandLineArgumentsData>();
 
         #endregion
@@ -29,9 +29,9 @@ namespace Expanse.Services.CommandLineParser
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        public CommandLineParserService(LoggerService logger, IVersionInfoService versionInfo, IJavaScriptRootEngineService rootEngine)
+        public CommandLineParserService(LoggerService logger, IVersionInfoService versionInfo, IScriptEngineService rootEngine)
         {
-            _commandLineParser.Setup(arg => arg.FileName).As('p', "program").Required();
+            _commandLineParser.Setup(arg => arg.ProgramFileName).As('r', "run").Required();
 
             _logger = logger;
             _versionInfo = versionInfo;
@@ -53,7 +53,7 @@ namespace Expanse.Services.CommandLineParser
                     _logger.Error("Invalid arguments - exiting...");
                 }
 
-                _rootEngine.RunProgram(_commandLineParser.Object.FileName);
+                _rootEngine.RunScriptProgram(_commandLineParser.Object.ProgramFileName);
 
                 return;
             }
@@ -62,6 +62,5 @@ namespace Expanse.Services.CommandLineParser
         }
 
         #endregion
-
     }
 }

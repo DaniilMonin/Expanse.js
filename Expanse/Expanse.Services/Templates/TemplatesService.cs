@@ -19,9 +19,7 @@ namespace Expanse.Services.Templates
         #region Private Fields
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IList<string> _cachedFiles =
-            new List<string>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IList<string> _cachedFiles = new List<string>();
 
         #endregion
 
@@ -33,7 +31,6 @@ namespace Expanse.Services.Templates
         }
 
         #endregion
-
 
         #region Public Methods
 
@@ -64,6 +61,5 @@ namespace Expanse.Services.Templates
         }
 
         #endregion
-
     }
 }

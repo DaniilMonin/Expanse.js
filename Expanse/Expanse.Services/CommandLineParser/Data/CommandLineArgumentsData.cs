@@ -4,7 +4,7 @@
     {
         #region Public Properties
 
-        public string FileName { get; set; }
+        public string ProgramFileName { get; set; }
 
         #endregion
     }

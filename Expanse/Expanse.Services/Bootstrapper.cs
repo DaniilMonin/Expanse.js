@@ -1,11 +1,11 @@
 ﻿#region Using namespaces...
 
 using System.Diagnostics;
-using Expanse.Core.Services.JavaScriptRootEngine;
+using Expanse.Core.Services.ScriptEngine;
 using Expanse.Services.CommandLineParser;
-using Expanse.Services.JavaScriptRootEngine;
 using Expanse.Services.JSonSerializer;
 using Expanse.Services.Logger;
+using Expanse.Services.ScriptEngine;
 using Expanse.Services.Templates;
 using Expanse.Services.VersionInfo;
 using Ninject;
@@ -19,9 +19,7 @@ namespace Expanse.Services
     {
         #region Private Fields
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly Core.Services.CommandLineParser.ICommandLineParserService
-            _commandLineParserService;
-
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly Core.Services.CommandLineParser.ICommandLineParserService _commandLineParserService;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private static IKernel _kernel;
 
         #endregion
@@ -63,15 +61,15 @@ namespace Expanse.Services
                 .To<TemplatesService>()
                 .InSingletonScope();
 
-            _kernel.Bind<JavaScriptRootEngineService, IJavaScriptRootEngineService>()
-                .To<JavaScriptRootEngineService>()
+            _kernel.Bind<JavaScriptEngineService, IScriptEngineService>()
+                .To<JavaScriptEngineService>()
                 .InSingletonScope();
 
             _kernel.Bind<VersionInfoService, Core.Services.VersionInfo.IVersionInfoService>()
                 .To<VersionInfoService>()
                 .InSingletonScope();
 
-            _kernel.Bind<StandardJavaScriptExtensionPackage, JavaScriptExtensionPackage>()
+            _kernel.Bind<StandardJavaScriptExtensionPackage, ScriptEngineExtensionPackage>()
                 .To<StandardJavaScriptExtensionPackage>()
                 .InSingletonScope();
 
