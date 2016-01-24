@@ -64,3 +64,4 @@ JsExpanse 0.0.2.9 (Javascript interpreter based on Jint 2.6.0.0)
 - RazorEngine https://github.com/Antaris/RazorEngine
 - Newtonsoft.Json https://github.com/JamesNK/Newtonsoft.Json
 - Jint https://github.com/sebastienros/jint
+- Fluent Command Line Parser https://github.com/fclp/fluent-command-line-parser
