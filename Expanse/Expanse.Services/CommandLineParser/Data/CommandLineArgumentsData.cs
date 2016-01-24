@@ -1,12 +1,11 @@
-﻿namespace Expanse.Shared.Data.CmdArgs
+﻿namespace Expanse.Services.CommandLineParser.Data
 {
-    public sealed class CommandLineArgumentsData
+    internal sealed class CommandLineArgumentsData
     {
         #region Public Properties
 
         public string FileName { get; set; }
 
         #endregion
-
     }
 }

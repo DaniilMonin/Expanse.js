@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CommandLineParser\CommandLineParserService.cs" />
+    <Compile Include="CommandLineParser\Data\CommandLineArgumentsData.cs" />
     <Compile Include="JavaScriptRootEngine\JavaScriptRootEngineService.cs" />
     <Compile Include="JSonSerializer\JSonSerializerService.cs" />
     <Compile Include="Logger\LoggerService.cs" />
@@ -85,9 +86,9 @@
       <Project>{d819e9b7-f95b-4b41-ba76-637ec1529890}</Project>
       <Name>Expanse.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Expanse.Shared.Data\Expanse.Shared.Data.csproj">
-      <Project>{710e53fb-7c39-4bd6-894d-7602d69dc8cd}</Project>
-      <Name>Expanse.Shared.Data</Name>
+    <ProjectReference Include="..\Expanse.System\Expanse.System.csproj">
+      <Project>{feb9189d-5635-4493-ae69-3f2be4ae9467}</Project>
+      <Name>Expanse.System</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

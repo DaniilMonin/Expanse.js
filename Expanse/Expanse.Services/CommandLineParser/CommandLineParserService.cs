@@ -6,7 +6,7 @@ using Expanse.Core.Services.CommandLineParser;
 using Expanse.Core.Services.JavaScriptRootEngine;
 using Expanse.Core.Services.Logger;
 using Expanse.Core.Services.VersionInfo;
-using Expanse.Shared.Data.CmdArgs;
+using Expanse.Services.CommandLineParser.Data;
 using Fclp;
 using Ninject;
 
@@ -50,7 +50,6 @@ namespace Expanse.Services.CommandLineParser
             {
                 if (_commandLineParser.Parse(args).HasErrors)
                 {
-                    _logger.Error($"{args}");
                     _logger.Error("Invalid arguments - exiting...");
                 }
 

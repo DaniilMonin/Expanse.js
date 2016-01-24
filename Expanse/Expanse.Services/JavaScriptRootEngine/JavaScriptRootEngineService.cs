@@ -42,6 +42,12 @@ namespace Expanse.Services.JavaScriptRootEngine
 
         #endregion
 
+        #region Public Properties
+
+        public string Description => $"Javascript interpreter based on Jint {typeof(Engine).Assembly.GetName().Version}";
+
+        #endregion
+
         #region Public Methods
 
         public void RunProgram(string fileName)

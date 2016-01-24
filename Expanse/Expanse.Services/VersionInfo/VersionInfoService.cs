@@ -3,7 +3,9 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using Expanse.Core.Services.JavaScriptRootEngine;
 using Expanse.Core.Services.VersionInfo;
+using Ninject;
 
 #endregion
 
@@ -12,10 +14,27 @@ namespace Expanse.Services.VersionInfo
 {
     internal sealed class VersionInfoService : IVersionInfoService
     {
+        #region Private Fields
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IJavaScriptRootEngineService _jsEngineService;
+
+        #endregion
+        
+        #region Constructor
+
+        [Inject, DebuggerStepThrough]
+        public VersionInfoService(IJavaScriptRootEngineService jsEngineService)
+        {
+            _jsEngineService = jsEngineService;
+        }
+
+        #endregion
+
+
         #region Public Properties
 
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
-        public string Description => "Some description";
+        public string Description => _jsEngineService.Description;
         public string Info => "JsExpanse";
 
         #endregion
