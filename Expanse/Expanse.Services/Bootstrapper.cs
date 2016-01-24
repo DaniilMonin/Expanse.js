@@ -37,7 +37,7 @@ namespace Expanse.Services
 
         #region Public Methods
 
-        //[DebuggerStepThrough]
+        [DebuggerStepThrough]
         public static Bootstrapper Load()
         {
             _kernel = new StandardKernel();

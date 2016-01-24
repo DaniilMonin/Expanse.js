@@ -25,7 +25,6 @@ namespace Expanse.Services.CommandLineParser
 
         #endregion
 
-
         #region Constructor
 
         [Inject, DebuggerStepThrough]
@@ -43,25 +42,24 @@ namespace Expanse.Services.CommandLineParser
 
         public void Parse(string[] args)
         {
-            Console.WriteLine(_versionInfo.GetVersionInformation());
-            Console.WriteLine(string.Empty);
+            _logger.Info(_versionInfo.GetVersionInformation());
 
             if (args != null && args.Any())
             {
                 if (_commandLineParser.Parse(args).HasErrors)
                 {
-                    Console.WriteLine($"{args}");
-                    Console.WriteLine("Invalid arguments - exiting...");
+                    _logger.Error($"{args}");
+                    _logger.Error("Invalid arguments - exiting...");
                 }
 
                 var fileName = _commandLineParser.Object;
 
-                Console.WriteLine($"{fileName.FileName}");
+                _logger.Info($"{fileName.FileName}");
 
                 return;
             }
 
-            Console.WriteLine("No any arguments - exiting...");
+            _logger.Error("No any arguments - exiting...");
         }
 
         #endregion

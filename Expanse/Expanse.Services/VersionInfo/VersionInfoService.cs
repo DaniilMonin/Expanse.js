@@ -16,7 +16,7 @@ namespace Expanse.Services.VersionInfo
 
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
         public string Description => "Some description";
-        public string Info => "Expanse";
+        public string Info => "JsExpanse";
 
         #endregion
 
