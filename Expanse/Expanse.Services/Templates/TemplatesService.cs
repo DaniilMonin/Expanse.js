@@ -30,7 +30,7 @@ namespace Expanse.Services.Templates
             {
                 if (_cachedFiles.Contains(fileName))
                 {
-                    return Engine.Razor.RunCompile(fileName, typeof (TModel), model);
+                    return Engine.Razor.Run(fileName, typeof (TModel), model);
                 }
 
                 _cachedFiles.Add(fileName);
