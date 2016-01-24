@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CommandLineParser\CommandLineParserService.cs" />
+    <Compile Include="JavaScriptEngine\JavaScriptEngineService.cs" />
     <Compile Include="JSonSerializer\JSonSerializerService.cs" />
     <Compile Include="Logger\LoggerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

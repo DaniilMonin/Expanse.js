@@ -1,8 +1,8 @@
 ﻿#region Using namespaces...
 
 using System.Diagnostics;
-using Expanse.Core.Services.CommandLineParser;
-using Expanse.Core.Services.JSonSerializer;
+using Expanse.Services.CommandLineParser;
+using Expanse.Services.JavaScriptEngine;
 using Expanse.Services.JSonSerializer;
 using Expanse.Services.Logger;
 using Expanse.Services.Templates;
@@ -17,7 +17,7 @@ namespace Expanse.Services
     {
         #region Private Fields
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly ICommandLineParserService
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly Core.Services.CommandLineParser.ICommandLineParserService
             _commandLineParserService;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private static IKernel _kernel;
@@ -27,7 +27,7 @@ namespace Expanse.Services
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        private Bootstrapper(ICommandLineParserService commandLineParserService)
+        private Bootstrapper(Core.Services.CommandLineParser.ICommandLineParserService commandLineParserService)
         {
             _commandLineParserService = commandLineParserService;
         }
@@ -41,9 +41,15 @@ namespace Expanse.Services
         {
             _kernel = new StandardKernel();
 
+            //TODO move it to another class, make dynamic loading
+
             _kernel.Bind<Bootstrapper>().ToSelf().InSingletonScope();
 
-            _kernel.Bind<JSonSerializerService, IJSonSerializerService>()
+            _kernel.Bind<CommandLineParserService, Core.Services.CommandLineParser.ICommandLineParserService>()
+                .To<CommandLineParserService>()
+                .InSingletonScope();
+
+            _kernel.Bind<JSonSerializerService, Core.Services.JSonSerializer.IJSonSerializerService>()
                 .To<JSonSerializerService>()
                 .InSingletonScope();
 
@@ -55,9 +61,9 @@ namespace Expanse.Services
                 .To<TemplatesService>()
                 .InSingletonScope();
 
-            /*
-            Load
-            */
+            _kernel.Bind<JavaScriptEngineService, Core.Services.JavaScriptEngine.IJavaScriptEngineService>()
+                .To<JavaScriptEngineService>()
+                .InSingletonScope();
 
             return _kernel.Get<Bootstrapper>();
         }
