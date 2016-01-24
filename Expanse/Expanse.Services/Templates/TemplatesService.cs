@@ -1,8 +1,10 @@
 ﻿#region Using namespaces...
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Expanse.Core.Services.Logger;
 using RazorEngine;
 using RazorEngine.Templating;
 using Expanse.Core.Services.Templates;
@@ -16,10 +18,22 @@ namespace Expanse.Services.Templates
     {
         #region Private Fields
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IList<string> _cachedFiles =
             new List<string>();
 
         #endregion
+
+        #region Constructor
+
+        public TemplatesService(LoggerService logger)
+        {
+            _logger = logger;
+        }
+
+        #endregion
+
 
         #region Public Methods
 
@@ -27,16 +41,23 @@ namespace Expanse.Services.Templates
         {
             if (File.Exists(fileName))
             {
-                if (_cachedFiles.Contains(fileName))
+                try
                 {
-                    return Engine.Razor.Run(fileName, null, new { Bag = model });
+                    if (_cachedFiles.Contains(fileName))
+                    {
+                        return Engine.Razor.Run(fileName, null, new {Bag = model});
+                    }
+
+                    _cachedFiles.Add(fileName);
+
+                    return Engine.Razor.RunCompile(File.ReadAllText(fileName), fileName, null, new {Bag = model});
                 }
+                catch (Exception exception)
+                {
+                    _logger.Error(exception.Message);
 
-                _cachedFiles.Add(fileName);
-
-                var template = File.ReadAllText(fileName);
-
-                return Engine.Razor.RunCompile(template, fileName, null, new { Bag = model });
+                    return exception.Message;
+                }
             }
 
             return string.Empty;

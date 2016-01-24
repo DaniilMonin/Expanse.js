@@ -9,7 +9,6 @@ using Expanse.Core.Services.JSonSerializer;
 using Expanse.Core.Services.Logger;
 using Expanse.Core.Services.Templates;
 using Jint;
-using Jint.Native;
 using Ninject;
 
 #endregion
@@ -49,7 +48,14 @@ namespace Expanse.Services.JavaScriptRootEngine
         {
             if (File.Exists(fileName))
             {
-                CreateAndGetEngine().Execute(File.ReadAllText(fileName));
+                try
+                {
+                    CreateAndGetEngine().Execute(File.ReadAllText(fileName));
+                }
+                catch (Exception exception)
+                {
+                    Info(exception.Message);
+                }
 
                 return;
             }
@@ -73,11 +79,20 @@ namespace Expanse.Services.JavaScriptRootEngine
 
             if (File.Exists(fileName))
             {
-                var result = CreateAndGetEngine().Execute(File.ReadAllText(fileName)).GetCompletionValue().ToObject();
+                try
+                {
+                    dynamic compiled = CreateAndGetEngine().Execute($"var module = {{}};\r\n{File.ReadAllText(fileName)}\r\nmodule;").GetCompletionValue();
 
-                _cacheDictionary.Add(fileName, result);
+                    _cacheDictionary.Add(fileName, compiled);
 
-                return result;
+                    return compiled;
+                }
+                catch (Exception exception)
+                {
+                    Info(exception.Message);
+                }
+
+                return new {};
             }
 
             Info($"Could not find {fileName}");
@@ -91,11 +106,9 @@ namespace Expanse.Services.JavaScriptRootEngine
                 .SetValue("info", new Action<object>(Info))
                 .SetValue("require", new Func<string, dynamic>(Require))
                 .SetValue("toJson", new Func<dynamic, string>(_jSonSerializer.Serialize))
-                .SetValue("razor", new Func<string, dynamic, string>(_templates.Compile));
+                .SetValue("runRazor", new Func<string, dynamic, string>(_templates.Compile));
         }
 
         #endregion
-
-
     }
 }
