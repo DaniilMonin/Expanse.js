@@ -6,6 +6,7 @@ using Expanse.Services.JavaScriptEngine;
 using Expanse.Services.JSonSerializer;
 using Expanse.Services.Logger;
 using Expanse.Services.Templates;
+using Expanse.Services.VersionInfo;
 using Ninject;
 
 #endregion
@@ -27,7 +28,7 @@ namespace Expanse.Services
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        private Bootstrapper(Core.Services.CommandLineParser.ICommandLineParserService commandLineParserService)
+        public Bootstrapper(Core.Services.CommandLineParser.ICommandLineParserService commandLineParserService)
         {
             _commandLineParserService = commandLineParserService;
         }
@@ -36,7 +37,7 @@ namespace Expanse.Services
 
         #region Public Methods
 
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         public static Bootstrapper Load()
         {
             _kernel = new StandardKernel();
@@ -63,6 +64,10 @@ namespace Expanse.Services
 
             _kernel.Bind<JavaScriptEngineService, Core.Services.JavaScriptEngine.IJavaScriptEngineService>()
                 .To<JavaScriptEngineService>()
+                .InSingletonScope();
+
+            _kernel.Bind<VersionInfoService, Core.Services.VersionInfo.IVersionInfoService>()
+                .To<VersionInfoService>()
                 .InSingletonScope();
 
             return _kernel.Get<Bootstrapper>();

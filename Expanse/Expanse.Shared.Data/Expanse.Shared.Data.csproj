@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D819E9B7-F95B-4B41-BA76-637EC1529890}</ProjectGuid>
+    <ProjectGuid>{710E53FB-7C39-4BD6-894D-7602D69DC8CD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Expanse.Core</RootNamespace>
-    <AssemblyName>Expanse.Core</AssemblyName>
+    <RootNamespace>Expanse.Shared.Data</RootNamespace>
+    <AssemblyName>Expanse.Shared.Data</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,13 +35,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CmdArgs\CommandLineArgumentsData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CommandLineParser\ICommandLineParserService.cs" />
-    <Compile Include="Services\JavaScriptEngine\IJavaScriptEngineService.cs" />
-    <Compile Include="Services\JSonSerializer\IJSonSerializerService.cs" />
-    <Compile Include="Services\Logger\LoggerService.cs" />
-    <Compile Include="Services\Templates\ITemplatesService.cs" />
-    <Compile Include="Services\VersionInfo\IVersionInfoService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Base\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
