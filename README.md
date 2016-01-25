@@ -1,4 +1,4 @@
-# JsExpanse
+# Expanse.js
 JavaScript Web Server and MVC Framework based on JINT - https://github.com/sebastienros/jint
 
 ## How to
