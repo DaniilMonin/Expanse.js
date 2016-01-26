@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using Expanse.Core.Common;
 using Expanse.Core.Services.ProjectExport;
 using Expanse.Core.Services.ProjectExport.Templates;
 using Expanse.Core.Services.ScriptEngine;

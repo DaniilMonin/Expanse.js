@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using Expanse.Core.Common;
 using Expanse.Core.Services.ProjectExport.Templates;
 
 #endregion

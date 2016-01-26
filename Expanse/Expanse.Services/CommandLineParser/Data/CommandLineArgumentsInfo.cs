@@ -18,6 +18,7 @@ namespace Expanse.Services.CommandLineParser.Data
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string NewProjectPathCommand = "projectpath";
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string HelpCommand = "help";
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string NoVisualStudioCodeGlobalCommand = "novs";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string LogPathCommand = "log";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string NoLogoCommandDescription = "Hide logo";
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string RunCommandDescription = "Run specific script";
@@ -25,6 +26,7 @@ namespace Expanse.Services.CommandLineParser.Data
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string NewProjectTypeCommandDescription = "New project type";
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string NewProjectPathCommandDescription = "Path to new project";
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string NoVisualStudioCodeGlobalCommandDescription = "Do not add Visual Studio Code Global";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string LogPathCommandDescription = "Path for logs";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const char NoLogoShortCommand = 'n';
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const char RunShortCommand = 'r';
@@ -32,6 +34,7 @@ namespace Expanse.Services.CommandLineParser.Data
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const char NewProjectTypeShortCommand = 't';
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const char NewProjectPathCommandShortCommand = 'p';
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const char NoVisualStudioCodeGlobalCommandShortCommand = 'v';
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const char LogPathCommandShortCommand = 'l';
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string HelpShortCommand = "?";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const string DefaultNewProjectTypeArgument = "std";

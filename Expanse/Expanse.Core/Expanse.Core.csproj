@@ -42,6 +42,7 @@
     <Compile Include="Services\ProjectExport\IProjectExportService.cs" />
     <Compile Include="Services\ProjectExport\Templates\IProjectExportTemplate.cs" />
     <Compile Include="Services\ProjectExport\Templates\FileTemplate.cs" />
+    <Compile Include="Common\SpecialFolder.cs" />
     <Compile Include="Services\ScriptEngine\IScriptEngineService.cs" />
     <Compile Include="Services\ScriptEngine\ScriptEngineExtensionPackage.cs" />
     <Compile Include="Services\JSonSerializer\IJSonSerializerService.cs" />

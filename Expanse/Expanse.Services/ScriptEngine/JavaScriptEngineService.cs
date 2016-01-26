@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Expanse.Core.Common;
 using Expanse.Core.Services.Logger;
 using Expanse.Core.Services.ProjectExport.Templates;
 using Expanse.Core.Services.ScriptEngine;
@@ -27,11 +28,11 @@ namespace Expanse.Services.ScriptEngine
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly List<string> _moduleDirectories = new List<string>();
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private Engine _engine;
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never), Obsolete("Moved to ProjectEnvironmentService")] private string _currentProjectPath;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never), Obsolete("ProjectEnvironmentService")] private string _currentProjectPath;
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RequireScriptTemplate = "var module = {{}};\r\n{0}\r\nmodule;";
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string LogoMessageTemplate = "Javascript interpreter based on Jint {0}";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string LogoMessageTemplate = "JavaScript interpreter based on JINT {0}";
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RequireSystemFunctionName = "require";
         
         #endregion
@@ -80,7 +81,9 @@ namespace Expanse.Services.ScriptEngine
 
         #endregion
 
+        [Obsolete("ProjectEnvironmentService")]
         private string ProjectModulesPath => Path.Combine(_currentProjectPath, SpecialFolder.Modules.ToString());
+        [Obsolete("ProjectEnvironmentService")]
         private string LocalModulesPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase), "Modules");
 
         #region Private Methods

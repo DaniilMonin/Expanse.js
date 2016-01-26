@@ -16,6 +16,8 @@
 
         public bool NoVisualStudioCodeGlobal { get; set; }
 
+        public string LogPath { get; set; }
+
         #endregion
 
         #region Internal Methods
@@ -32,12 +34,7 @@
 
         internal bool CanRunScript()
         {
-            if (string.IsNullOrWhiteSpace(ScriptToRunFileName))
-            {
-                return false;
-            }
-
-            return true;
+            return !string.IsNullOrWhiteSpace(ScriptToRunFileName);
         }
 
         #endregion

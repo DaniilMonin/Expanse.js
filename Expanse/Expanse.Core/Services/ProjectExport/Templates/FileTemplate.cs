@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Expanse.Core.Common;
 using Expanse.Core.Services.ScriptEngine;
 
 #endregion
@@ -57,14 +58,5 @@ namespace Expanse.Core.Services.ProjectExport.Templates
             => from package in _packages from extension in package.GetExtensions() select extension.Key;
 
         #endregion
-    }
-
-    public enum SpecialFolder
-    {
-        Output,
-        Log,
-        Modules,
-        Root,
-        Temp,
     }
 }

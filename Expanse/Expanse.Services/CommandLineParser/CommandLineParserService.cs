@@ -129,6 +129,14 @@ namespace Expanse.Services.CommandLineParser
                 .SetDefault(CommandLineArgumentsInfo.DefaultNewProjectTypeArgument)
                 .WithDescription(CommandLineArgumentsInfo.NewProjectTypeCommandDescription);
 
+            //TODO set this from project environment
+
+            _commandLineParser.Setup(arg => arg.LogPath)
+                .As(CommandLineArgumentsInfo.LogPathCommandShortCommand,
+                    CommandLineArgumentsInfo.LogPathCommand)
+                /*.SetDefault(CommandLineArgumentsInfo.DefaultNewProjectTypeArgument)*/
+                .WithDescription(CommandLineArgumentsInfo.LogPathCommandDescription);
+
             _commandLineParser.Setup(arg => arg.NewProjectPath)
                 .As(CommandLineArgumentsInfo.NewProjectPathCommandShortCommand,
                     CommandLineArgumentsInfo.NewProjectPathCommand)
