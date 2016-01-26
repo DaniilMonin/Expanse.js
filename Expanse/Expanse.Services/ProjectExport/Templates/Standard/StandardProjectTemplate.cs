@@ -1,14 +1,17 @@
 ﻿#region Using namespaces...
 
 using System.Diagnostics;
+using System.IO;
+using Expanse.Core.Services.Logger;
 using Expanse.Core.Services.ProjectExport;
+using Ninject;
 
 #endregion
 
 
 namespace Expanse.Services.ProjectExport.Templates.Standard
 {
-    internal sealed class StandardProjectTemplate : IProjectExportTemplate
+    internal sealed class StandardProjectTemplate : BaseProjectExportTemplate
     {
         #region Private Fields
 
@@ -16,11 +19,33 @@ namespace Expanse.Services.ProjectExport.Templates.Standard
 
         #endregion
 
-        #region Public Properties
+        #region Constructor
 
-        public string ProjectType => TypeName;
+        [Inject, DebuggerStepThrough]
+        public StandardProjectTemplate(LoggerService logger) : base(logger)
+        {
+        }
 
         #endregion
 
+        #region Public Properties
+
+        public override string ProjectType => TypeName;
+
+        #endregion
+
+        #region Protected Methods
+
+        protected override void RunExport(string fullPath, string projectName)
+        {
+            if (Directory.Exists(fullPath))
+            {
+                return;
+            }
+
+            Logger.Error("Path not exist");
+        }
+
+        #endregion
     }
 }

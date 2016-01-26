@@ -48,6 +48,8 @@ namespace Expanse.Services.ProjectExport
             }
 
             _logger.Info($"Creating new project type of {projectType} '{projectName}' at '{path}'");
+
+            template.DoExport(path, projectName);
         }
 
         #endregion
