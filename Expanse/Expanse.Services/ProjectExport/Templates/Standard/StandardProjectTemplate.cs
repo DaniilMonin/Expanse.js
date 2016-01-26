@@ -40,6 +40,12 @@ namespace Expanse.Services.ProjectExport.Templates.Standard
         {
             if (Directory.Exists(fullPath))
             {
+                var mainScript = new MainScriptTemplate();
+                var helloWorld = new CustomScriptTemplate();
+
+                File.WriteAllText(Path.Combine(ModuleDirectoryPath, "helloWorldModule.js"), helloWorld.TransformText());
+                File.WriteAllText(Path.Combine(fullPath, "main.js"), mainScript.TransformText());
+
                 return;
             }
 

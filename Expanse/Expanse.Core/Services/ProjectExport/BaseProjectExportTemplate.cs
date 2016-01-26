@@ -27,7 +27,7 @@ namespace Expanse.Core.Services.ProjectExport
         }
 
         #endregion
-        
+
         #region Public Properties
 
         public abstract string ProjectType { get; }
@@ -62,6 +62,12 @@ namespace Expanse.Core.Services.ProjectExport
             try
             {
                 Directory.CreateDirectory(combinedPath);
+
+                Directory.CreateDirectory(ModuleDirectoryPath = Path.Combine(combinedPath, "Modules"));
+
+                Directory.CreateDirectory(OutputDirectoryPath = Path.Combine(combinedPath, "Output"));
+
+                Directory.CreateDirectory(TempDirectoryPath = Path.Combine(combinedPath, "Temp"));
             }
             catch (Exception exception)
             {
@@ -78,6 +84,12 @@ namespace Expanse.Core.Services.ProjectExport
         #region Protected Properties
 
         protected LoggerService Logger => _logger;
+
+        protected string ModuleDirectoryPath { get; private set; }
+
+        protected string OutputDirectoryPath { get; private set; }
+
+        protected string TempDirectoryPath { get; private set; }
 
         #endregion
 

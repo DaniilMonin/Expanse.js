@@ -76,6 +76,16 @@
     <Compile Include="CommandLineParser\Data\CommandLineArgumentsData.cs" />
     <Compile Include="CommandLineParser\Data\CommandLineArgumentsInfo.cs" />
     <Compile Include="ProjectExport\ProjectExportService.cs" />
+    <Compile Include="ProjectExport\Templates\Standard\CustomScriptTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomScriptTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectExport\Templates\Standard\MainScriptTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainScriptTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="ProjectExport\Templates\Standard\StandardProjectTemplate.cs" />
     <Compile Include="ScriptEngine\JavaScriptEngineService.cs" />
     <Compile Include="ScriptEngine\StandardJavaScriptExtensionPackage.cs" />
@@ -98,7 +108,19 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ProjectExport\Templates\Standard\CustomScriptTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CustomScriptTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ProjectExport\Templates\Standard\MainScriptTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>MainScriptTemplate.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
