@@ -1,4 +1,4 @@
-﻿namespace Expanse.Core.Services.ProjectExport
+﻿namespace Expanse.Core.Services.ProjectExport.Templates
 {
     public interface IProjectExportTemplate
     {

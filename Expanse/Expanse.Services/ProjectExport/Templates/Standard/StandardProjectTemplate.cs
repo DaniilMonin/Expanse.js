@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using Expanse.Core.Services.Logger;
 using Expanse.Core.Services.ProjectExport;
+using Expanse.Core.Services.ProjectExport.Templates;
 using Ninject;
 
 #endregion

@@ -8,6 +8,7 @@ using Expanse.Core.Services.Logger;
 using RazorEngine;
 using RazorEngine.Templating;
 using Expanse.Core.Services.Templates;
+using Ninject;
 
 #endregion
 
@@ -25,6 +26,7 @@ namespace Expanse.Services.Templates
 
         #region Constructor
 
+        [Inject, DebuggerStepThrough]
         public TemplatesService(LoggerService logger)
         {
             _logger = logger;

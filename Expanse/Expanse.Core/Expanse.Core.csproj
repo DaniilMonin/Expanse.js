@@ -38,14 +38,15 @@
     <Compile Include="Attributes\AutoAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommandLineParser\ICommandLineParserService.cs" />
-    <Compile Include="Services\ProjectExport\BaseProjectExportTemplate.cs" />
+    <Compile Include="Services\ProjectExport\Templates\BaseProjectExportTemplate.cs" />
     <Compile Include="Services\ProjectExport\IProjectExportService.cs" />
-    <Compile Include="Services\ProjectExport\IProjectExportTemplate.cs" />
-    <Compile Include="Services\ProjectExport\FileTemplate.cs" />
+    <Compile Include="Services\ProjectExport\Templates\IProjectExportTemplate.cs" />
+    <Compile Include="Services\ProjectExport\Templates\FileTemplate.cs" />
     <Compile Include="Services\ScriptEngine\IScriptEngineService.cs" />
     <Compile Include="Services\ScriptEngine\ScriptEngineExtensionPackage.cs" />
     <Compile Include="Services\JSonSerializer\IJSonSerializerService.cs" />
     <Compile Include="Services\Logger\LoggerService.cs" />
+    <Compile Include="Services\ProjectEnvironment\ProjectEnvironmentService.cs" />
     <Compile Include="Services\Templates\ITemplatesService.cs" />
     <Compile Include="Services\VersionInfo\IVersionInfoService.cs" />
   </ItemGroup>

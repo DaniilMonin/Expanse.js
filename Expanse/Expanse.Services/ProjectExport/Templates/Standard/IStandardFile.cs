@@ -1,6 +1,7 @@
 ﻿#region Using namespaces...
 
 using Expanse.Core.Services.ProjectExport;
+using Expanse.Core.Services.ProjectExport.Templates;
 
 #endregion
 

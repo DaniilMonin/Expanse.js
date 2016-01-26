@@ -8,7 +8,7 @@ using Expanse.Core.Services.ScriptEngine;
 #endregion
 
 
-namespace Expanse.Core.Services.ProjectExport
+namespace Expanse.Core.Services.ProjectExport.Templates
 {
     public abstract class FileTemplate<TTemplate>
         where TTemplate : class, new()

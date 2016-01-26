@@ -10,7 +10,7 @@ using Expanse.Core.Services.Logger;
 #endregion
 
 
-namespace Expanse.Core.Services.ProjectExport
+namespace Expanse.Core.Services.ProjectExport.Templates
 {
     public abstract class BaseProjectExportTemplate : IProjectExportTemplate
     {
