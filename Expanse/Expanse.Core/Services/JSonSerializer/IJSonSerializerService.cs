@@ -2,8 +2,10 @@
 {
     public interface IJSonSerializerService
     {
-        string Serialize<TData>(TData data);
+        string SerializeObject<TData>(TData data);
 
-        TData DeSerialize<TData>(string json);
+        TData DeserializeObject<TData>(string json);
+
+        dynamic DeserializeObject(string json);
     }
 }

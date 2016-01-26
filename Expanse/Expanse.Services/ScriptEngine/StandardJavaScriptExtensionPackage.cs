@@ -45,8 +45,9 @@ namespace Expanse.Services.ScriptEngine
         public override IDictionary<string, Delegate> GetExtensions() => new Dictionary<string, Delegate>
         {
             {"info", new Action<object>(o => _logger.Info(o?.ToString()))},
-            {"toJson", new Func<dynamic, string>(_jSonSerializer.Serialize)},
-            {"runRazor", new Func<string, dynamic, string>(_templates.Compile)}
+            {"toJson", new Func<dynamic, string>(_jSonSerializer.SerializeObject)},
+            {"runRazor", new Func<string, dynamic, string>(_templates.Compile)},
+            {"fromJson", new  Func<string, dynamic>(_jSonSerializer.DeserializeObject)}
         };
 
         #endregion

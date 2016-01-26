@@ -35,6 +35,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\AutoAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommandLineParser\ICommandLineParserService.cs" />
     <Compile Include="Services\ScriptEngine\IScriptEngineService.cs" />

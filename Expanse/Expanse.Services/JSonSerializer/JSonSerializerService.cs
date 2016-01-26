@@ -12,9 +12,11 @@ namespace Expanse.Services.JSonSerializer
     {
         #region Public Methods
 
-        public string Serialize<TData>(TData data) => JsonConvert.SerializeObject(data);
+        public string SerializeObject<TData>(TData data) => JsonConvert.SerializeObject(data);
 
-        public TData DeSerialize<TData>(string json) => JsonConvert.DeserializeObject<TData>(json);
+        public TData DeserializeObject<TData>(string json) => JsonConvert.DeserializeObject<TData>(json);
+
+        public dynamic DeserializeObject(string json) => JsonConvert.DeserializeObject(json);
 
         #endregion
     }

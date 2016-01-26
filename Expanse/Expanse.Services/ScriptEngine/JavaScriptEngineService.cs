@@ -22,10 +22,14 @@ namespace Expanse.Services.ScriptEngine
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IEnumerable<ScriptEngineExtensionPackage> _packages;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IDictionary<string, object> _cacheDictionary = new Dictionary<string, object>();
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RequireScriptTemplate = "var module = {{}};\r\n{0}\r\nmodule;";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private Engine _engine;
 
-        #endregion
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RequireScriptTemplate = "var module = {{}};\r\n{0}\r\nmodule;";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string LogoMessageTemplate = "Javascript interpreter based on Jint {0}";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RequireSystemFunctionName = "require";
         
+        #endregion
+
         #region Constructor
 
         [Inject, DebuggerStepThrough]
@@ -41,7 +45,7 @@ namespace Expanse.Services.ScriptEngine
 
         #region Public Properties
 
-        public string Description => $"Javascript interpreter based on Jint {typeof(Engine).Assembly.GetName().Version}";
+        public string Description => string.Format(LogoMessageTemplate, typeof (Engine).Assembly.GetName().Version);
 
         #endregion
 
@@ -53,7 +57,7 @@ namespace Expanse.Services.ScriptEngine
             {
                 try
                 {
-                    CreateAndGetEngine().Execute(File.ReadAllText(fileName));
+                    GetEngine().Execute(File.ReadAllText(fileName));
                 }
                 catch (Exception exception)
                 {
@@ -81,7 +85,7 @@ namespace Expanse.Services.ScriptEngine
             {
                 try
                 {
-                    dynamic compiled = CreateAndGetEngine().Execute(string.Format(RequireScriptTemplate, File.ReadAllText(fileName))).GetCompletionValue();
+                    dynamic compiled = GetEngine().Execute(string.Format(RequireScriptTemplate, File.ReadAllText(fileName))).GetCompletionValue();
 
                     _cacheDictionary.Add(fileName, compiled);
 
@@ -89,27 +93,30 @@ namespace Expanse.Services.ScriptEngine
                 }
                 catch (Exception exception)
                 {
-                    _logger.Info(exception.Message);
+                    _logger.Error(exception.Message);
                 }
 
                 return new {};
             }
 
-            _logger.Info($"Could not find {fileName}");
+            _logger.Error($"File not found - '{fileName}'");
 
             return new {};
         }
 
-        private Engine CreateAndGetEngine()
+        private Engine GetEngine()
         {
-            var engine = new Engine().SetValue("require", new Func<string, dynamic>(Require));
-
-            foreach (var extension in _packages.SelectMany(package => package.GetExtensions()))
+            if (_engine == null)
             {
-                engine.SetValue(extension.Key, extension.Value);
+                _engine = new Engine().SetValue(RequireSystemFunctionName, new Func<string, dynamic>(Require));
+
+                foreach (var extension in _packages.SelectMany(package => package.GetExtensions()))
+                {
+                    _engine.SetValue(extension.Key, extension.Value);
+                }
             }
 
-            return engine;
+            return _engine;
         }
 
         #endregion

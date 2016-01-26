@@ -15,6 +15,5 @@ namespace Expanse.Core.Services.ScriptEngine
         public abstract IDictionary<string, Delegate> GetExtensions();
 
         #endregion
-
     }
 }

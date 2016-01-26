@@ -22,32 +22,25 @@ namespace Expanse.Services.CommandLineParser
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IVersionInfoService _versionInfo;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IScriptEngineService _rootEngine;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly FluentCommandLineParser<CommandLineArgumentsData> _commandLineParser = new FluentCommandLineParser<CommandLineArgumentsData>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly
+            FluentCommandLineParser<CommandLineArgumentsData> _commandLineParser =
+                new FluentCommandLineParser<CommandLineArgumentsData>();
 
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string NoLogoCommand = "nologo";
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RunCommand = "run";
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string CreateProjectCommand = "createproject";
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string CreateMvcProjectCommand = "createmvcproject";
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string NewProjectPathCommand = "projectpath";
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string HelpCommand = "help";
         #endregion
 
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        public CommandLineParserService(LoggerService logger, IVersionInfoService versionInfo, IScriptEngineService rootEngine)
+        public CommandLineParserService(
+            LoggerService logger, 
+            IVersionInfoService versionInfo,
+            IScriptEngineService rootEngine)
         {
             _logger = logger;
             _versionInfo = versionInfo;
             _rootEngine = rootEngine;
 
-            _commandLineParser.Setup(arg => arg.ProgramFileName).As('r', RunCommand).WithDescription("Run specific script");
-            _commandLineParser.Setup(arg => arg.NoLogo).As('n', NoLogoCommand).SetDefault(false).WithDescription("Hide logo");
-            _commandLineParser.Setup(arg => arg.NewProjectName).As('c', CreateProjectCommand).WithDescription("Create new project");
-            _commandLineParser.Setup(arg => arg.NewProjectName).As('m', CreateMvcProjectCommand).WithDescription("Create new MVC project");
-            _commandLineParser.Setup(arg => arg.NewProjectPath).As('p', NewProjectPathCommand).WithDescription("Where new project should be");
-            _commandLineParser.Setup(arg => arg.NewProjectPath).As('?', HelpCommand).Callback(text => _logger.Info(text));
+            InitializationCommandLineArguments();
         }
 
         #endregion
@@ -69,11 +62,11 @@ namespace Expanse.Services.CommandLineParser
 
                 if (string.IsNullOrWhiteSpace(_commandLineParser.Object.ProgramFileName))
                 {
-                    _logger.Error($"No file found '{_commandLineParser.Object.ProgramFileName}'");
+                    _logger.Error($"File not found '{_commandLineParser.Object.ProgramFileName}'");
 
                     return;
                 }
-                
+
                 _rootEngine.RunScript(_commandLineParser.Object.ProgramFileName);
 
                 return;
@@ -83,5 +76,43 @@ namespace Expanse.Services.CommandLineParser
         }
 
         #endregion
+
+        #region Private Methods
+
+        [DebuggerStepThrough]
+        private void InitializationCommandLineArguments()
+        {
+            _commandLineParser.Setup(arg => arg.ProgramFileName)
+                .As(CommandLineArgumentsInfo.RunShortCommand, CommandLineArgumentsInfo.RunCommand)
+                .WithDescription(CommandLineArgumentsInfo.RunCommandDescription);
+
+
+            _commandLineParser.Setup(arg => arg.NoLogo)
+                .As(CommandLineArgumentsInfo.NoLogoShortCommand, CommandLineArgumentsInfo.NoLogoCommand)
+                .SetDefault(false)
+                .WithDescription(CommandLineArgumentsInfo.HelpCommandDescription);
+
+            _commandLineParser.Setup(arg => arg.NewProjectName)
+                .As(CommandLineArgumentsInfo.CreateProjectShortCommand, CommandLineArgumentsInfo.CreateProjectCommand)
+                .WithDescription(CommandLineArgumentsInfo.CreateProjectCommandDescription);
+
+            _commandLineParser.Setup(arg => arg.NewProjectName)
+                .As(CommandLineArgumentsInfo.CreateMvcProjectShortCommand,
+                    CommandLineArgumentsInfo.CreateMvcProjectCommand)
+                .WithDescription(CommandLineArgumentsInfo.CreateMvcProjectCommandDescription);
+
+            _commandLineParser.Setup(arg => arg.NewProjectPath)
+                .As(CommandLineArgumentsInfo.NewProjectPathCommandShortCommand,
+                    CommandLineArgumentsInfo.NewProjectPathCommand)
+                .WithDescription(CommandLineArgumentsInfo.NewProjectPathCommandDescription);
+
+            _commandLineParser.Setup(arg => arg.NewProjectPath)
+                .As(CommandLineArgumentsInfo.HelpShortCommand, CommandLineArgumentsInfo.HelpCommand)
+                .Callback(text => _logger.Info(text))
+                .WithDescription(CommandLineArgumentsInfo.HelpCommandDescription);
+        }
+
+        #endregion
+
     }
 }
