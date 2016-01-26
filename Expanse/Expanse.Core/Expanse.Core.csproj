@@ -39,6 +39,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommandLineParser\ICommandLineParserService.cs" />
     <Compile Include="Services\ProjectExport\IProjectExportService.cs" />
+    <Compile Include="Services\ProjectExport\IProjectExportTemplate.cs" />
     <Compile Include="Services\ScriptEngine\IScriptEngineService.cs" />
     <Compile Include="Services\ScriptEngine\ScriptEngineExtensionPackage.cs" />
     <Compile Include="Services\JSonSerializer\IJSonSerializerService.cs" />

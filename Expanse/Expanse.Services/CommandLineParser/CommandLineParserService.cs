@@ -86,12 +86,18 @@ namespace Expanse.Services.CommandLineParser
         {
             _logger.InfoIf(!cmdArgumentsData.NoLogo, _versionInfo.GetVersionInformation());
 
-            if (string.IsNullOrWhiteSpace(cmdArgumentsData.ScriptToRunFileName))
+            if (cmdArgumentsData.CanDoExport())
             {
+                _export.Export(cmdArgumentsData.NewProjectPath, cmdArgumentsData.NewProjectName,
+                    cmdArgumentsData.NewProjectType);
+
                 return;
             }
 
-            _rootEngine.RunScript(cmdArgumentsData.ScriptToRunFileName);
+            if (cmdArgumentsData.CanRunScript())
+            {
+                _rootEngine.RunScript(cmdArgumentsData.ScriptToRunFileName);
+            }
         }
 
         [DebuggerStepThrough]

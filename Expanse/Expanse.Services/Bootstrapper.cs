@@ -1,11 +1,13 @@
 ﻿#region Using namespaces...
 
 using System.Diagnostics;
+using Expanse.Core.Services.ProjectExport;
 using Expanse.Core.Services.ScriptEngine;
 using Expanse.Services.CommandLineParser;
 using Expanse.Services.JSonSerializer;
 using Expanse.Services.Logger;
 using Expanse.Services.ProjectExport;
+using Expanse.Services.ProjectExport.Templates.Standard;
 using Expanse.Services.ScriptEngine;
 using Expanse.Services.Templates;
 using Expanse.Services.VersionInfo;
@@ -76,6 +78,10 @@ namespace Expanse.Services
 
             _kernel.Bind<StandardJavaScriptExtensionPackage, ScriptEngineExtensionPackage>()
                 .To<StandardJavaScriptExtensionPackage>()
+                .InSingletonScope();
+
+            _kernel.Bind<StandardProjectTemplate, IProjectExportTemplate>()
+                .To<StandardProjectTemplate>()
                 .InSingletonScope();
 
             return _kernel.Get<Bootstrapper>();

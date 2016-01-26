@@ -15,5 +15,29 @@
         public string NewProjectType { get; set; }
 
         #endregion
+
+        #region Internal Methods
+
+        internal bool CanDoExport()
+        {
+            if (string.IsNullOrWhiteSpace(NewProjectName))
+            {
+                return false;
+            }
+
+            return !string.IsNullOrWhiteSpace(NewProjectPath);
+        }
+
+        internal bool CanRunScript()
+        {
+            if (string.IsNullOrWhiteSpace(ScriptToRunFileName))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }
