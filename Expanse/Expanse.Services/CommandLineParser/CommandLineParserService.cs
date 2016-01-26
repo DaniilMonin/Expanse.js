@@ -62,8 +62,6 @@ namespace Expanse.Services.CommandLineParser
 
                 if (string.IsNullOrWhiteSpace(_commandLineParser.Object.ProgramFileName))
                 {
-                    _logger.Error($"File not found '{_commandLineParser.Object.ProgramFileName}'");
-
                     return;
                 }
 
@@ -90,7 +88,7 @@ namespace Expanse.Services.CommandLineParser
             _commandLineParser.Setup(arg => arg.NoLogo)
                 .As(CommandLineArgumentsInfo.NoLogoShortCommand, CommandLineArgumentsInfo.NoLogoCommand)
                 .SetDefault(false)
-                .WithDescription(CommandLineArgumentsInfo.HelpCommandDescription);
+                .WithDescription(CommandLineArgumentsInfo.NoLogoCommandDescription);
 
             _commandLineParser.Setup(arg => arg.NewProjectName)
                 .As(CommandLineArgumentsInfo.CreateProjectShortCommand, CommandLineArgumentsInfo.CreateProjectCommand)
@@ -106,10 +104,8 @@ namespace Expanse.Services.CommandLineParser
                     CommandLineArgumentsInfo.NewProjectPathCommand)
                 .WithDescription(CommandLineArgumentsInfo.NewProjectPathCommandDescription);
 
-            _commandLineParser.Setup(arg => arg.NewProjectPath)
-                .As(CommandLineArgumentsInfo.HelpShortCommand, CommandLineArgumentsInfo.HelpCommand)
-                .Callback(text => _logger.Info(text))
-                .WithDescription(CommandLineArgumentsInfo.HelpCommandDescription);
+            _commandLineParser.SetupHelp(CommandLineArgumentsInfo.HelpShortCommand, CommandLineArgumentsInfo.HelpCommand)
+                .Callback(text => _logger.Info(text));
         }
 
         #endregion
