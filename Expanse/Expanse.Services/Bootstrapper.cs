@@ -5,6 +5,7 @@ using Expanse.Core.Services.ScriptEngine;
 using Expanse.Services.CommandLineParser;
 using Expanse.Services.JSonSerializer;
 using Expanse.Services.Logger;
+using Expanse.Services.ProjectExport;
 using Expanse.Services.ScriptEngine;
 using Expanse.Services.Templates;
 using Expanse.Services.VersionInfo;
@@ -67,6 +68,10 @@ namespace Expanse.Services
 
             _kernel.Bind<VersionInfoService, Core.Services.VersionInfo.IVersionInfoService>()
                 .To<VersionInfoService>()
+                .InSingletonScope();
+
+            _kernel.Bind<ProjectExportService, Core.Services.ProjectExport.IProjectExportService>()
+                .To<ProjectExportService>()
                 .InSingletonScope();
 
             _kernel.Bind<StandardJavaScriptExtensionPackage, ScriptEngineExtensionPackage>()

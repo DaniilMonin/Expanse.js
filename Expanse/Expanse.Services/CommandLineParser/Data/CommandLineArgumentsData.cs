@@ -4,13 +4,15 @@
     {
         #region Public Properties
 
-        public string ProgramFileName { get; set; }
+        public string ScriptToRunFileName { get; set; }
 
         public bool NoLogo { get; set; }
 
         public string NewProjectName { get; set; }
 
         public string NewProjectPath { get; set; }
+
+        public string NewProjectType { get; set; }
 
         #endregion
     }

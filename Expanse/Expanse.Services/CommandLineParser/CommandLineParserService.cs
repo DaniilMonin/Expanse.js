@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Expanse.Core.Services.CommandLineParser;
 using Expanse.Core.Services.Logger;
+using Expanse.Core.Services.ProjectExport;
 using Expanse.Core.Services.ScriptEngine;
 using Expanse.Core.Services.VersionInfo;
 using Expanse.Services.CommandLineParser.Data;
@@ -22,6 +23,8 @@ namespace Expanse.Services.CommandLineParser
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IVersionInfoService _versionInfo;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IScriptEngineService _rootEngine;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IProjectExportService _export;
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly
             FluentCommandLineParser<CommandLineArgumentsData> _commandLineParser =
                 new FluentCommandLineParser<CommandLineArgumentsData>();
@@ -34,11 +37,13 @@ namespace Expanse.Services.CommandLineParser
         public CommandLineParserService(
             LoggerService logger, 
             IVersionInfoService versionInfo,
-            IScriptEngineService rootEngine)
+            IScriptEngineService rootEngine,
+            IProjectExportService export)
         {
             _logger = logger;
             _versionInfo = versionInfo;
             _rootEngine = rootEngine;
+            _export = export;
 
             InitializationCommandLineArguments();
         }
@@ -81,18 +86,18 @@ namespace Expanse.Services.CommandLineParser
         {
             _logger.InfoIf(!cmdArgumentsData.NoLogo, _versionInfo.GetVersionInformation());
 
-            if (string.IsNullOrWhiteSpace(cmdArgumentsData.ProgramFileName))
+            if (string.IsNullOrWhiteSpace(cmdArgumentsData.ScriptToRunFileName))
             {
                 return;
             }
 
-            _rootEngine.RunScript(cmdArgumentsData.ProgramFileName);
+            _rootEngine.RunScript(cmdArgumentsData.ScriptToRunFileName);
         }
 
         [DebuggerStepThrough]
         private void InitializationCommandLineArguments()
         {
-            _commandLineParser.Setup(arg => arg.ProgramFileName)
+            _commandLineParser.Setup(arg => arg.ScriptToRunFileName)
                 .As(CommandLineArgumentsInfo.RunShortCommand, CommandLineArgumentsInfo.RunCommand)
                 .WithDescription(CommandLineArgumentsInfo.RunCommandDescription);
 
@@ -106,10 +111,11 @@ namespace Expanse.Services.CommandLineParser
                 .As(CommandLineArgumentsInfo.CreateProjectShortCommand, CommandLineArgumentsInfo.CreateProjectCommand)
                 .WithDescription(CommandLineArgumentsInfo.CreateProjectCommandDescription);
 
-            _commandLineParser.Setup(arg => arg.NewProjectName)
-                .As(CommandLineArgumentsInfo.CreateMvcProjectShortCommand,
-                    CommandLineArgumentsInfo.CreateMvcProjectCommand)
-                .WithDescription(CommandLineArgumentsInfo.CreateMvcProjectCommandDescription);
+            _commandLineParser.Setup(arg => arg.NewProjectType)
+                .As(CommandLineArgumentsInfo.NewProjectTypeShortCommand,
+                    CommandLineArgumentsInfo.NewProjectTypeCommand)
+                    .SetDefault(CommandLineArgumentsInfo.DefaultNewProjectTypeArgument)
+                    .WithDescription(CommandLineArgumentsInfo.NewProjectTypeCommandDescription);
 
             _commandLineParser.Setup(arg => arg.NewProjectPath)
                 .As(CommandLineArgumentsInfo.NewProjectPathCommandShortCommand,

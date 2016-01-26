@@ -38,6 +38,7 @@
     <Compile Include="Attributes\AutoAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommandLineParser\ICommandLineParserService.cs" />
+    <Compile Include="Services\ProjectExport\IProjectExportService.cs" />
     <Compile Include="Services\ScriptEngine\IScriptEngineService.cs" />
     <Compile Include="Services\ScriptEngine\ScriptEngineExtensionPackage.cs" />
     <Compile Include="Services\JSonSerializer\IJSonSerializerService.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="Services\Templates\ITemplatesService.cs" />
     <Compile Include="Services\VersionInfo\IVersionInfoService.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
