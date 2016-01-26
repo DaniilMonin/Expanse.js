@@ -1,6 +1,7 @@
 ﻿#region Using namespaces...
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Expanse.Core.Services.ProjectExport
         #region Private Fields
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly LoggerService _logger;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IDictionary<SpecialFolder, string> _folders = new Dictionary<SpecialFolder, string>();
 
         #endregion
 
@@ -45,7 +47,7 @@ namespace Expanse.Core.Services.ProjectExport
                     Path.GetInvalidPathChars()
                         .Where(invalidPathChar => projectNameAsChars.Any(o => invalidPathChar == o)))
             {
-                _logger.Error($"Invalid project name, bad symbol is {invalidPathChar}");
+                _logger.Error($"Invalid project name, bad symbol is '{invalidPathChar}'");
 
                 return;
             }
@@ -61,13 +63,11 @@ namespace Expanse.Core.Services.ProjectExport
 
             try
             {
-                Directory.CreateDirectory(combinedPath);
-
-                Directory.CreateDirectory(ModuleDirectoryPath = Path.Combine(combinedPath, "Modules"));
-
-                Directory.CreateDirectory(OutputDirectoryPath = Path.Combine(combinedPath, "Output"));
-
-                Directory.CreateDirectory(TempDirectoryPath = Path.Combine(combinedPath, "Temp"));
+                AddAndCreateSpecialFolder(SpecialFolder.Root, combinedPath);
+                AddAndCreateSpecialFolder(SpecialFolder.Log, combinedPath);
+                AddAndCreateSpecialFolder(SpecialFolder.Output, combinedPath);
+                AddAndCreateSpecialFolder(SpecialFolder.Temp, combinedPath);
+                AddAndCreateSpecialFolder(SpecialFolder.Modules, combinedPath);
             }
             catch (Exception exception)
             {
@@ -85,11 +85,15 @@ namespace Expanse.Core.Services.ProjectExport
 
         protected LoggerService Logger => _logger;
 
-        protected string ModuleDirectoryPath { get; private set; }
+        protected string ModuleDirectoryPath => _folders[SpecialFolder.Modules];
 
-        protected string OutputDirectoryPath { get; private set; }
+        protected string OutputDirectoryPath => _folders[SpecialFolder.Output];
 
-        protected string TempDirectoryPath { get; private set; }
+        protected string TempDirectoryPath => _folders[SpecialFolder.Temp];
+
+        protected string LogDirectoryPath => _folders[SpecialFolder.Log];
+
+        protected string RootDirectoryPath => _folders[SpecialFolder.Root];
 
         #endregion
 
@@ -97,6 +101,24 @@ namespace Expanse.Core.Services.ProjectExport
 
         protected abstract void RunExport(string fullPath, string projectName);
 
+        protected string GetSpecialFolder(SpecialFolder folder) => _folders[folder];
+
         #endregion
+
+        #region Private Methods
+
+        private void AddAndCreateSpecialFolder(SpecialFolder folder, string path)
+        {
+            var combinedPath = Path.Combine(path, folder == SpecialFolder.Root ? string.Empty : folder.ToString());
+
+            Directory.CreateDirectory(combinedPath);
+
+            AddSpecialFolder(folder, combinedPath);
+        }
+
+        private void AddSpecialFolder(SpecialFolder folder, string path) => _folders.Add(folder, path);
+
+        #endregion
+
     }
 }

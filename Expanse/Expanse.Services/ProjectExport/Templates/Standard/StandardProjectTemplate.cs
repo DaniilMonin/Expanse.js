@@ -1,5 +1,6 @@
 ﻿#region Using namespaces...
 
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Expanse.Core.Services.Logger;
@@ -16,14 +17,16 @@ namespace Expanse.Services.ProjectExport.Templates.Standard
         #region Private Fields
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string TypeName = "std";
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IEnumerable<IStandardFile> _templates;
 
         #endregion
 
         #region Constructor
 
         [Inject, DebuggerStepThrough]
-        public StandardProjectTemplate(LoggerService logger) : base(logger)
+        public StandardProjectTemplate(LoggerService logger, IEnumerable<IStandardFile> templates) : base(logger)
         {
+            _templates = templates;
         }
 
         #endregion
@@ -40,11 +43,12 @@ namespace Expanse.Services.ProjectExport.Templates.Standard
         {
             if (Directory.Exists(fullPath))
             {
-                var mainScript = new MainScriptTemplate();
-                var helloWorld = new CustomScriptTemplate();
+                foreach (var template in _templates)
+                {
+                    WriteTemplateToFile(template);
+                }
 
-                File.WriteAllText(Path.Combine(ModuleDirectoryPath, "helloWorldModule.js"), helloWorld.TransformText());
-                File.WriteAllText(Path.Combine(fullPath, "main.js"), mainScript.TransformText());
+                Logger.Info("Project created");
 
                 return;
             }
@@ -53,5 +57,13 @@ namespace Expanse.Services.ProjectExport.Templates.Standard
         }
 
         #endregion
+
+        #region Private Methods
+
+        private void WriteTemplateToFile(IStandardFile file)
+            => File.WriteAllText(Path.Combine(GetSpecialFolder(file.Folder), file.FileName), file.TransformText());
+
+        #endregion
+
     }
 }

@@ -3,10 +3,14 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-/* global info */
-/* global toJson */
-/* global require */
-/* global fromJson */
+<#
+	foreach (var method in GlobalExtensionsMethods)
+	{
+#>
+/* global <#= method #> */
+<#
+	}
+#>
 /*
 All modules should return in module.exports property
 */
@@ -21,3 +25,4 @@ module.exports = {
     }
 
 }
+<#+ public IEnumerable<string> GlobalExtensionsMethods { get; set; } #>

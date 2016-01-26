@@ -3,10 +3,14 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-/* global info */
-/* global toJson */
-/* global require */
-/* global fromJson */
+<#
+	foreach (var method in GlobalExtensionsMethods)
+	{
+#>
+/* global <#= method #> */
+<#
+	}
+#>
 /*
 Require block
 
@@ -17,10 +21,12 @@ Require will look for modules
 */
 var helloWorldModule = require('helloWorldModule.js');
 
-info(helloWorldModule.getHelloWorld());
+info(helloWorldModule.exports.getHelloWorld());
 
-var helloWorldObject = helloWorldModule.getHelloWorldObject();
+var helloWorldObject = helloWorldModule.exports.getHelloWorldObject();
 
 var helloWorldJson = toJson(helloWorldObject);
 
 info(helloWorldJson);
+
+<#+ public IEnumerable<string> GlobalExtensionsMethods { get; set; } #>

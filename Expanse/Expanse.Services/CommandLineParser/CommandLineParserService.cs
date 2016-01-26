@@ -113,6 +113,12 @@ namespace Expanse.Services.CommandLineParser
                 .SetDefault(false)
                 .WithDescription(CommandLineArgumentsInfo.NoLogoCommandDescription);
 
+            _commandLineParser.Setup(arg => arg.NoVisualStudioCodeGlobal)
+                .As(CommandLineArgumentsInfo.NoVisualStudioCodeGlobalCommandShortCommand,
+                    CommandLineArgumentsInfo.NoVisualStudioCodeGlobalCommand)
+                .SetDefault(false)
+                .WithDescription(CommandLineArgumentsInfo.NoVisualStudioCodeGlobalCommandDescription);
+
             _commandLineParser.Setup(arg => arg.NewProjectName)
                 .As(CommandLineArgumentsInfo.CreateProjectShortCommand, CommandLineArgumentsInfo.CreateProjectCommand)
                 .WithDescription(CommandLineArgumentsInfo.CreateProjectCommandDescription);
@@ -120,8 +126,8 @@ namespace Expanse.Services.CommandLineParser
             _commandLineParser.Setup(arg => arg.NewProjectType)
                 .As(CommandLineArgumentsInfo.NewProjectTypeShortCommand,
                     CommandLineArgumentsInfo.NewProjectTypeCommand)
-                    .SetDefault(CommandLineArgumentsInfo.DefaultNewProjectTypeArgument)
-                    .WithDescription(CommandLineArgumentsInfo.NewProjectTypeCommandDescription);
+                .SetDefault(CommandLineArgumentsInfo.DefaultNewProjectTypeArgument)
+                .WithDescription(CommandLineArgumentsInfo.NewProjectTypeCommandDescription);
 
             _commandLineParser.Setup(arg => arg.NewProjectPath)
                 .As(CommandLineArgumentsInfo.NewProjectPathCommandShortCommand,

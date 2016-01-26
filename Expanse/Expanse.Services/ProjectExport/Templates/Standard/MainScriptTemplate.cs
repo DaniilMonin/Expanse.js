@@ -28,11 +28,32 @@ namespace Expanse.Services.ProjectExport.Templates.Standard
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"/* global info */
-/* global toJson */
-/* global require */
-/* global fromJson */
-/*
+            
+            #line 6 "C:\Users\Daniil\Documents\GitHub\Expanse\Expanse\Expanse.Services\ProjectExport\Templates\Standard\MainScriptTemplate.tt"
+
+	foreach (var method in GlobalExtensionsMethods)
+	{
+
+            
+            #line default
+            #line hidden
+            this.Write("/* global ");
+            
+            #line 10 "C:\Users\Daniil\Documents\GitHub\Expanse\Expanse\Expanse.Services\ProjectExport\Templates\Standard\MainScriptTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(method));
+            
+            #line default
+            #line hidden
+            this.Write(" */\r\n");
+            
+            #line 11 "C:\Users\Daniil\Documents\GitHub\Expanse\Expanse\Expanse.Services\ProjectExport\Templates\Standard\MainScriptTemplate.tt"
+
+	}
+
+            
+            #line default
+            #line hidden
+            this.Write(@"/*
 Require block
 
 Require will look for modules
@@ -42,16 +63,23 @@ Require will look for modules
 */
 var helloWorldModule = require('helloWorldModule.js');
 
-info(helloWorldModule.getHelloWorld());
+info(helloWorldModule.exports.getHelloWorld());
 
-var helloWorldObject = helloWorldModule.getHelloWorldObject();
+var helloWorldObject = helloWorldModule.exports.getHelloWorldObject();
 
 var helloWorldJson = toJson(helloWorldObject);
 
 info(helloWorldJson);
+
 ");
             return this.GenerationEnvironment.ToString();
         }
+        
+        #line 32 "C:\Users\Daniil\Documents\GitHub\Expanse\Expanse\Expanse.Services\ProjectExport\Templates\Standard\MainScriptTemplate.tt"
+ public IEnumerable<string> GlobalExtensionsMethods { get; set; } 
+        
+        #line default
+        #line hidden
     }
     
     #line default

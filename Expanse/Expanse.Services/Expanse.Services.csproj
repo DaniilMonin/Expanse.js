@@ -76,11 +76,14 @@
     <Compile Include="CommandLineParser\Data\CommandLineArgumentsData.cs" />
     <Compile Include="CommandLineParser\Data\CommandLineArgumentsInfo.cs" />
     <Compile Include="ProjectExport\ProjectExportService.cs" />
+    <Compile Include="ProjectExport\Templates\Standard\CustomScriptFile.cs" />
     <Compile Include="ProjectExport\Templates\Standard\CustomScriptTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomScriptTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProjectExport\Templates\Standard\IStandardFile.cs" />
+    <Compile Include="ProjectExport\Templates\Standard\MainScriptFile.cs" />
     <Compile Include="ProjectExport\Templates\Standard\MainScriptTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

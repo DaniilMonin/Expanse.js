@@ -28,11 +28,32 @@ namespace Expanse.Services.ProjectExport.Templates.Standard
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"/* global info */
-/* global toJson */
-/* global require */
-/* global fromJson */
-/*
+            
+            #line 6 "C:\Users\Daniil\Documents\GitHub\Expanse\Expanse\Expanse.Services\ProjectExport\Templates\Standard\CustomScriptTemplate.tt"
+
+	foreach (var method in GlobalExtensionsMethods)
+	{
+
+            
+            #line default
+            #line hidden
+            this.Write("/* global ");
+            
+            #line 10 "C:\Users\Daniil\Documents\GitHub\Expanse\Expanse\Expanse.Services\ProjectExport\Templates\Standard\CustomScriptTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(method));
+            
+            #line default
+            #line hidden
+            this.Write(" */\r\n");
+            
+            #line 11 "C:\Users\Daniil\Documents\GitHub\Expanse\Expanse\Expanse.Services\ProjectExport\Templates\Standard\CustomScriptTemplate.tt"
+
+	}
+
+            
+            #line default
+            #line hidden
+            this.Write(@"/*
 All modules should return in module.exports property
 */
 module.exports = {
@@ -45,9 +66,16 @@ module.exports = {
         return ""Hello world!"";
     }
 
-}");
+}
+");
             return this.GenerationEnvironment.ToString();
         }
+        
+        #line 28 "C:\Users\Daniil\Documents\GitHub\Expanse\Expanse\Expanse.Services\ProjectExport\Templates\Standard\CustomScriptTemplate.tt"
+ public IEnumerable<string> GlobalExtensionsMethods { get; set; } 
+        
+        #line default
+        #line hidden
     }
     
     #line default

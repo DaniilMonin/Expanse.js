@@ -14,6 +14,8 @@
 
         public string NewProjectType { get; set; }
 
+        public bool NoVisualStudioCodeGlobal { get; set; }
+
         #endregion
 
         #region Internal Methods

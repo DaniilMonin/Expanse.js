@@ -84,6 +84,9 @@ namespace Expanse.Services
                 .To<StandardProjectTemplate>()
                 .InSingletonScope();
 
+            _kernel.Bind<CustomScriptFile, IStandardFile>().To<CustomScriptFile>();
+            _kernel.Bind<MainScriptFile, IStandardFile>().To<MainScriptFile>();
+
             return _kernel.Get<Bootstrapper>();
         }
 

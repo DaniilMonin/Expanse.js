@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Expanse.Core.Services.Logger;
 using Expanse.Core.Services.ScriptEngine;
 using Jint;
@@ -23,6 +24,8 @@ namespace Expanse.Services.ScriptEngine
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IEnumerable<ScriptEngineExtensionPackage> _packages;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private readonly IDictionary<string, object> _cacheDictionary = new Dictionary<string, object>();
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private Engine _engine;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private string _currentProjectPath;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string RequireScriptTemplate = "var module = {{}};\r\n{0}\r\nmodule;";
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const string LogoMessageTemplate = "Javascript interpreter based on Jint {0}";
@@ -57,6 +60,8 @@ namespace Expanse.Services.ScriptEngine
             {
                 try
                 {
+                    _currentProjectPath = Path.GetDirectoryName(fileName);
+
                     GetEngine().Execute(File.ReadAllText(fileName));
                 }
                 catch (Exception exception)
@@ -72,22 +77,60 @@ namespace Expanse.Services.ScriptEngine
 
         #endregion
 
+        private string ProjectModulesPath => Path.Combine(_currentProjectPath, "Modules");
+        private string LocalModulesPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase), "Modules");
+
         #region Private Methods
+
+        private string GetModuleFullPath(string moduleName)
+        {
+            var fullPath = Path.Combine(ProjectModulesPath, moduleName);
+
+            if (File.Exists(fullPath))
+            {
+                return fullPath;
+            }
+
+            fullPath = Path.Combine(_currentProjectPath, moduleName);
+
+            if (File.Exists(fullPath))
+            {
+                return fullPath;
+            }
+
+            fullPath = Path.Combine(LocalModulesPath, moduleName);
+
+            if (File.Exists(fullPath))
+            {
+                return fullPath;
+            }
+
+            return string.Empty;
+        }
 
         private dynamic Require(string fileName)
         {
-            if (_cacheDictionary.ContainsKey(fileName))
+            var module = GetModuleFullPath(fileName);
+
+            if (string.IsNullOrWhiteSpace(module))
             {
-                return _cacheDictionary[fileName];
+                _logger.Error($"File not found - '{fileName}'");
+
+                return new { };
             }
 
-            if (File.Exists(fileName))
+            if (_cacheDictionary.ContainsKey(module))
+            {
+                return _cacheDictionary[module];
+            }
+
+            if (File.Exists(module))
             {
                 try
                 {
-                    dynamic compiled = GetEngine().Execute(string.Format(RequireScriptTemplate, File.ReadAllText(fileName))).GetCompletionValue();
+                    dynamic compiled = GetEngine().Execute(string.Format(RequireScriptTemplate, File.ReadAllText(module))).GetCompletionValue();
 
-                    _cacheDictionary.Add(fileName, compiled);
+                    _cacheDictionary.Add(module, compiled);
 
                     return compiled;
                 }
@@ -101,7 +144,7 @@ namespace Expanse.Services.ScriptEngine
 
             _logger.Error($"File not found - '{fileName}'");
 
-            return new {};
+            return new { };
         }
 
         private Engine GetEngine()
