@@ -51,21 +51,21 @@ namespace Expanse.Services.CommandLineParser
         {
             if (args != null && args.Any())
             {
-                if (_commandLineParser.Parse(args).HasErrors)
+                var parseResult = _commandLineParser.Parse(args);
+
+                if (parseResult.HasErrors)
                 {
                     _logger.Error("Invalid arguments");
 
                     return;
                 }
 
-                _logger.InfoIf(!_commandLineParser.Object.NoLogo, _versionInfo.GetVersionInformation());
-
-                if (string.IsNullOrWhiteSpace(_commandLineParser.Object.ProgramFileName))
+                if (parseResult.HelpCalled)
                 {
                     return;
                 }
 
-                _rootEngine.RunScript(_commandLineParser.Object.ProgramFileName);
+                Execute(_commandLineParser.Object);
 
                 return;
             }
@@ -76,6 +76,18 @@ namespace Expanse.Services.CommandLineParser
         #endregion
 
         #region Private Methods
+
+        private void Execute(CommandLineArgumentsData cmdArgumentsData)
+        {
+            _logger.InfoIf(!cmdArgumentsData.NoLogo, _versionInfo.GetVersionInformation());
+
+            if (string.IsNullOrWhiteSpace(cmdArgumentsData.ProgramFileName))
+            {
+                return;
+            }
+
+            _rootEngine.RunScript(cmdArgumentsData.ProgramFileName);
+        }
 
         [DebuggerStepThrough]
         private void InitializationCommandLineArguments()
