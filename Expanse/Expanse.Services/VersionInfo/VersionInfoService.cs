@@ -32,7 +32,7 @@ namespace Expanse.Services.VersionInfo
 
         #region Public Properties
 
-        public Version Version => Assembly.GetEntryAssembly().GetName().Version;
+        public Version Version => Assembly.GetCallingAssembly().GetName().Version;
         public string Description => _jsEngineService.Description;
         public string Info => "JsExpanse";
 
