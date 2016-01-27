@@ -1,2 +1,2 @@
 language: csharp
-solution: Expanse.sln
+solution: Expanse\Expanse.sln
