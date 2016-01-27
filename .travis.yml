@@ -1,4 +1,6 @@
 language: csharp
 solution: ./Expanse/Expanse.sln
-  - xbuild /p:Configuration=Release ./Expanse.sln
-  - mono ./packages/xunit.runner.*/tools/xunit.console ./Expanse.Tests/bin/Release/Expanse.Tests.dll
+- nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release ./Expanse/Expanse.sln
+  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe  ./Expanse/Expanse.Tests/bin/Release/Expanse.Tests.dll
