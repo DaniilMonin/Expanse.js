@@ -1,2 +1,4 @@
 language: csharp
 solution: ./Expanse/Expanse.sln
+- xbuild /p:Configuration=Release ./Expanse/Expanse.sln
+  - mono ./Expanse/Expanse/packages/xunit.runner.console.2.1.0/tools/xunit.console ./Expanse/Expanse/Expanse.Tests/bin/Release/Expanse.Tests.dll
