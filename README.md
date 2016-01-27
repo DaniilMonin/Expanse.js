@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/DaniilMonin/Expanse.js.svg?branch=master)](https://travis-ci.org/DaniilMonin/Expanse.js)
 # Expanse.js
 JavaScript Web Server and MVC Framework based on JINT - https://github.com/sebastienros/jint
 
